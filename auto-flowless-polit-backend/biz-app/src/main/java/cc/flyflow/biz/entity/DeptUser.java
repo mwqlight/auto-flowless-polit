@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * 部门-用户表
  *
@@ -15,7 +17,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class DeptUser extends BaseEntity {
+@TableName("flyflow_dept_user")
+public class DeptUser {
 
 
     /**
@@ -30,5 +33,35 @@ public class DeptUser extends BaseEntity {
      */
     @TableField("`user_id`")
     private String userId;
+
+    /**
+     * 租户id
+     */
+    @TableField("`tenant_id`")
+    private String tenantId;
+
+    /**
+     * 用户id
+     */
+    @TableField("id")
+    private Long id;
+
+    /**
+     * 逻辑删除字段
+     */
+    @TableField("del_flag")
+    private Boolean delFlag;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    private Date updateTime;
 
 }

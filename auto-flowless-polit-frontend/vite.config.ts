@@ -45,7 +45,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         [env.VITE_APP_BASE_API]: {
           // target: "http://vapi.youlai.tech", // 线上接口地址
           //  target: 'http://localhost:8989',  // 本地接口地址 , 后端工程仓库地址：https://gitee.com/youlaiorg/youlai-boot
-          target: 'http://127.0.0.1:26859',  // 本地接口地址 , 后端工程仓库地址：https://gitee.com/youlaiorg/youlai-boot
+          target: 'http://127.0.0.1:26863',  // 本地接口地址 , 后端工程仓库地址：https://gitee.com/youlaiorg/youlai-boot
           changeOrigin: true,
           rewrite: (path) =>
             path.replace(new RegExp("^" + env.VITE_APP_BASE_API), ""), // 替换 /dev-api 为 target 接口地址

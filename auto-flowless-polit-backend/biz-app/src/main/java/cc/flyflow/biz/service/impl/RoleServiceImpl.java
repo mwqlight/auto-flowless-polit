@@ -49,7 +49,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      */
     @Override
     public R<Set<String>> queryRoleKeyByUserId(String userId) {
-        List<UserRole> userRoleList = userRoleService.queryListByUserId(userId).getData();
+        R<List<UserRole>> userRoleListR = userRoleService.queryListByUserId(userId);
+        List<UserRole> userRoleList = userRoleListR.getData();
         if (CollUtil.isEmpty(userRoleList)) {
             return R.success(CollUtil.newHashSet());
         }
