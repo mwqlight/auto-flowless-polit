@@ -4,10 +4,10 @@
 # This script checks if the backend application is already running, stops it if necessary, and then starts it
 
 # Configuration
-PORT=8080
-BACKEND_DIR="/usr/local/share/data-01-space/auto-flowless-polit/auto-flowless-polit-backend"
+PORT=26859
+BACKEND_DIR="/usr/local/share/case-08-space/auto-flowless-polit/auto-flowless-polit-backend"
 JAR_NAME="web.jar"
-LOG_FILE="/usr/local/share/data-01-space/auto-flowless-polit/backend.log"
+LOG_FILE="/usr/local/share/case-08-space/auto-flowless-polit/backend.log"
 
 # Check if the application is already running
 PID=$(lsof -t -i:$PORT 2>/dev/null)

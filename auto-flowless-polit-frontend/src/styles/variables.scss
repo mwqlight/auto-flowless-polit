@@ -2,24 +2,29 @@
 
 
 :root {
-  --menuBg: #304156;
-  --menuText: #bfcbd9;
-  --menuActiveText: #409eff;
-  --menuHover: #263445;
-  --subMenuBg: #1f2d3d;
-  --subMenuActiveText: #f4f4f5;
-  --subMenuHover: #001528;
+  // 高科技风格配色
+  --menuBg: #0a0e27;
+  --menuText: #8892b0;
+  --menuActiveText: #00d4ff;
+  --menuHover: #112240;
+  --subMenuBg: #050714;
+  --subMenuActiveText: #64ffda;
+  --subMenuHover: #233554;
 
 
-  //修改主题
-
-  --el-color-primary: #002fa7;
-  --el-color-success: #009966;
-  --el-color-danger: #cc0000;
-  --el-color-warning: #ff9a3e;
-  --el-border-radius-base: 0;
-
-
+  // 修改主题为高科技风格
+  --el-color-primary: #00d4ff;
+  --el-color-primary-light-3: #33e0ff;
+  --el-color-primary-light-5: #66e9ff;
+  --el-color-primary-light-7: #99f1ff;
+  --el-color-primary-light-8: #b3f4ff;
+  --el-color-primary-light-9: #d9faff;
+  --el-color-success: #64ffda;
+  --el-color-danger: #ff6b6b;
+  --el-color-warning: #ffd93d;
+  --el-border-radius-base: 8px;
+  --el-box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+  --el-box-shadow-light: 0 0 8px rgba(0, 212, 255, 0.1);
 }
 
 $menuBg: var(--menuBg);

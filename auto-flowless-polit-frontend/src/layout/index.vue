@@ -70,7 +70,7 @@ const font = reactive({
     <Sidebar class="sidebar-container" />
 
     <div :class="{ hasTagsView: showTagsView }" class="main-container">
-			<el-watermark :font="font" :zIndex="0" :content="['FlyFLow','飞驰工作流']">
+			<el-watermark :font="font" :zIndex="0" :content="['AFP','Auto Flowless Polit']">
 
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />

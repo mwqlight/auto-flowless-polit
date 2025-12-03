@@ -10,6 +10,8 @@ spring:
     ##使用的db
     database: 13
     password: ""
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   servlet:
     multipart:
       max-file-size: 50MB
@@ -43,6 +45,9 @@ spring:
 ##允许端口
 server:
   port: 26859
+  error:
+    include-exception: false
+  shutdown: graceful
 ##启用的日志文件
 logging:
   config: classpath:logback.xml

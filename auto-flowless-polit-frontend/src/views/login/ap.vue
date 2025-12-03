@@ -230,16 +230,18 @@ onMounted(() => {
 		userStore
 				.loginByToken(token)
 				.then(() => {
-
-
+					return userStore.getInfo();
+				})
+				.then(() => {
+					ElMessage.success("登录成功");
 					const otherQueryParams = Object.keys(query).reduce(
-							(acc: any, cur: string) => {
-								if (cur !== "redirect") {
-									acc[cur] = query[cur];
-								}
-								return acc;
-							},
-							{}
+						(acc: any, cur: string) => {
+							if (cur !== "redirect") {
+								acc[cur] = query[cur];
+							}
+							return acc;
+						},
+						{}
 					);
 
 
@@ -266,25 +268,29 @@ function handleLogin() {
 		if (valid) {
 			loading.value = true;
 			userStore
-					.login(loginData.value)
-					.then(() => {
-						const query: LocationQuery = route.query;
+				.login(loginData.value)
+				.then(() => {
+					return userStore.getInfo();
+				})
+				.then(() => {
+					ElMessage.success("登录成功");
+					const query: LocationQuery = route.query;
 
-						const redirect = (query.redirect as LocationQueryValue) ?? "/";
+					const redirect = (query.redirect as LocationQueryValue) ?? "/";
 
-						const otherQueryParams = Object.keys(query).reduce(
-								(acc: any, cur: string) => {
-									if (cur !== "redirect") {
-										acc[cur] = query[cur];
-									}
-									return acc;
-								},
-								{}
-						);
+					const otherQueryParams = Object.keys(query).reduce(
+						(acc: any, cur: string) => {
+							if (cur !== "redirect") {
+								acc[cur] = query[cur];
+							}
+							return acc;
+						},
+						{}
+					);
 
 
-						router.push({path: redirect, query: otherQueryParams});
-					})
+					router.push({path: redirect, query: otherQueryParams});
+				})
 					.catch(() => {
 						// 验证失败，重新生成验证码
 						if(captcha.value==='true'){
