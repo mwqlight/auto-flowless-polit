@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watchEffect } from "vue";
+import { computed, watchEffect, reactive } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { AppMain, Navbar, Settings, TagsView } from "./components/index";
 import Sidebar from "./components/Sidebar/index.vue";

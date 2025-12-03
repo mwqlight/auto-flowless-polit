@@ -1,0 +1,50 @@
+-- 创建智能体流程表
+CREATE TABLE IF NOT EXISTS `agent_process` (
+  `id` varchar(64) NOT NULL COMMENT '主键ID',
+  `flow_name` varchar(255) NOT NULL COMMENT '流程名称',
+  `unique_id` varchar(255) NOT NULL COMMENT '唯一标识',
+  `form_json` text COMMENT '表单配置JSON',
+  `flow_json` text COMMENT '流程配置JSON',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态：0-停用，1-启用',
+  `is_main` tinyint(1) DEFAULT '0' COMMENT '是否为主流程：0-否，1-是',
+  `description` text COMMENT '描述',
+  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标记：0-未删除，1-已删除',
+  PRIMARY KEY (`id`),
+  KEY `idx_unique_id` (`unique_id`),
+  KEY `idx_status` (`status`),
+  KEY `idx_is_main` (`is_main`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='智能体流程表';
+
+-- 创建智能体流程实例表
+CREATE TABLE IF NOT EXISTS `agent_process_instance` (
+  `id` varchar(64) NOT NULL COMMENT '主键ID',
+  `process_instance_id` varchar(64) NOT NULL COMMENT '流程实例ID',
+  `flow_id` varchar(64) NOT NULL COMMENT '流程ID',
+  `flow_name` varchar(255) NOT NULL COMMENT '流程名称',
+  `status` varchar(20) NOT NULL COMMENT '状态：running-运行中，completed-已完成，failed-失败，terminated-已终止',
+  `initiator` varchar(64) DEFAULT NULL COMMENT '发起人',
+  `form_data` text COMMENT '表单数据JSON',
+  `form_json` text COMMENT '表单配置JSON',
+  `flow_json` text COMMENT '流程配置JSON',
+  `result` varchar(20) DEFAULT 'success' COMMENT '执行结果：success-成功，failed-失败',
+  `error_message` text COMMENT '错误信息',
+  `execution_time` datetime DEFAULT NULL COMMENT '执行时间',
+  `completion_time` datetime DEFAULT NULL COMMENT '完成时间',
+  `duration` bigint(20) DEFAULT NULL COMMENT '执行时长（秒）',
+  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标记：0-未删除，1-已删除',
+  PRIMARY KEY (`id`),
+  KEY `idx_process_instance_id` (`process_instance_id`),
+  KEY `idx_flow_id` (`flow_id`),
+  KEY `idx_status` (`status`),
+  KEY `idx_execution_time` (`execution_time`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='智能体流程实例表';

@@ -70,6 +70,26 @@ export const constantRoutes: RouteRecordRaw[] = [
 			},
 		],
 	},
+	// 智能体流程相关路由
+	{
+		path: "/agentFlow",
+		component: Layout,
+		meta: { title: '智能体流程', icon: 'flow-chart', alwaysShow: true },
+		children: [
+			{
+				path: 'list',
+				component: () => import('@/views/flyflow/views/agentFlow/list.vue'),
+				name: 'AgentFlowList',
+				meta: { title: '智能体流程列表', icon: 'list', noCache: true }
+			},
+			{
+				path: 'instance',
+				component: () => import('@/views/flyflow/views/agentFlow/instance.vue'),
+				name: 'AgentFlowInstance',
+				meta: { title: '智能体流程实例', icon: 'monitor', noCache: true }
+			}
+		]
+	},
 
 	// 外部链接
 	/*{

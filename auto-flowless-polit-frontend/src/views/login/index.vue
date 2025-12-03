@@ -9,6 +9,7 @@
 import {getLoginUrl} from "@/api/auth";
 import {LocationQuery, LocationQueryValue, useRoute} from "vue-router";
 import router from "@/router";
+import {onMounted} from "vue";
 
 import {useUserStore} from "@/views/flyflow/stores/user";
 import {isBlank, isNotBlank, parseUrlParams,assiginObj} from "@/views/flyflow/utils/objutil";
@@ -119,11 +120,17 @@ onMounted(() => {
 		userStore
 				.loginByToken(token)
 				.then(() => {
-
-
-
-
+					// 获取用户信息和角色权限
+					return userStore.getInfo();
+				})
+				.then(() => {
 					router.push({path: redirect, query: params.params});
+				})
+				.catch((error) => {
+					console.error('登录失败:', error);
+					// 登录失败，清除token并重新登录
+					userStore.resetToken();
+					handleLogin();
 				});
 	} else {
 		handleLogin();
