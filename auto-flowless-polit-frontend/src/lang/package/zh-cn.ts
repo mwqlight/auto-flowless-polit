@@ -6,7 +6,7 @@ export default {
   },
   // 登录页面国际化
   login: {
-    title: 'FlyFlow',
+    title: 'AFP',
     phone: '手机号',
     password: '密码',
     login: '登 录',
