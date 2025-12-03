@@ -117,15 +117,27 @@ onMounted(() => {
 			return
 		}
 		userStore
-				.loginByToken(token)
-				.then(() => {
-
-
-
-
-					router.push({path: redirect, query: params.params});
+			.loginByToken(token)
+			.then(() => {
+				console.log('Login by token successful, token:', userStore.token);
+				// 获取用户信息，确保权限控制能正确识别用户角色
+				return userStore.getInfo();
+			})
+			.then((userInfo) => {
+				console.log('User info obtained:', userInfo);
+				console.log('Redirecting to:', redirect);
+				router.push({path: redirect, query: params.params}).then(() => {
+					console.log('Navigation successful');
+				}).catch((error) => {
+					console.error('Navigation failed:', error);
 				});
+			})
+			.catch((error) => {
+				console.error('Login process failed:', error);
+				handleLogin();
+			});
 	} else {
+		console.log('No token found, redirecting to login');
 		handleLogin();
 
 	}
