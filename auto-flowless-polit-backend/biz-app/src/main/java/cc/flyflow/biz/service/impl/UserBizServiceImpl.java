@@ -13,6 +13,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
  * @since 2023-05-05
  */
 @Service
+@Slf4j
 public class UserBizServiceImpl  implements IUserBizService {
 
     @Lazy
@@ -55,31 +57,54 @@ public class UserBizServiceImpl  implements IUserBizService {
      */
     @Override
     public R getCurrentUserDetail() {
-        String userId = StpUtil.getLoginIdAsString();
+        try {
+            String userId = StpUtil.getLoginIdAsString();
 
-        UserDto user = ApiStrategyFactory.getStrategy().getUser(userId);
+            ApiStrategy strategy = ApiStrategyFactory.getStrategy();
+            if (strategy == null) {
+                log.error("获取当前用户详细信息失败：ApiStrategy 为 null");
+                return R.fail("获取当前用户详细信息失败");
+            }
 
+            UserDto user = strategy.getUser(userId);
+            if (user == null) {
+                log.error("获取当前用户详细信息失败：用户 {} 不存在", userId);
+                return R.fail("获取当前用户详细信息失败");
+            }
 
-        UserDtoExtension userDtoExtension = BeanUtil.copyProperties(user, UserDtoExtension.class);
+            UserDtoExtension userDtoExtension = BeanUtil.copyProperties(user, UserDtoExtension.class);
+            if (userDtoExtension == null) {
+                log.error("获取当前用户详细信息失败：用户 {} 转换为 UserDtoExtension 失败", userId);
+                return R.fail("获取当前用户详细信息失败");
+            }
 
-        Set<String> roleKeySet = null;
-        if (allPermission) {
-            roleKeySet = roleService.list().stream().map(w -> w.getKey()).collect(Collectors.toSet());
-        } else {
-            roleKeySet = roleService.queryRoleKeyByUserId(userId).getData();
+            Set<String> roleKeySet = null;
+            if (allPermission) {
+                roleKeySet = roleService.list().stream().map(w -> w.getKey()).collect(Collectors.toSet());
+            } else {
+                R<Set<String>> roleKeySetR = roleService.queryRoleKeyByUserId(userId);
+                if (roleKeySetR != null) {
+                    roleKeySet = roleKeySetR.getData();
+                }
+            }
+
+            userDtoExtension.setRoles(roleKeySet);
+            if (CollUtil.isNotEmpty(roleKeySet)) {
+                R<Set<String>> permsR = menuService.listRolePerms(roleKeySet);
+                if (permsR != null) {
+                    userDtoExtension.setPerms(permsR.getData());
+                } else {
+                    userDtoExtension.setPerms(new HashSet<>());
+                }
+            } else {
+                userDtoExtension.setPerms(new HashSet<>());
+            }
+
+            return R.success(userDtoExtension);
+        } catch (Exception e) {
+            log.error("获取当前用户详细信息失败：", e);
+            return R.fail("获取当前用户详细信息失败");
         }
-
-
-        userDtoExtension.setRoles(roleKeySet);
-        if (CollUtil.isNotEmpty(roleKeySet)) {
-            userDtoExtension.setPerms(menuService.listRolePerms(roleKeySet).getData());
-
-        } else {
-            userDtoExtension.setPerms(new HashSet<>());
-        }
-
-
-        return R.success(userDtoExtension);
     }
 
 

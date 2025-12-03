@@ -25,6 +25,13 @@ public class BaseEntity {
     private Long id;
 
     /**
+     * 创建人ID
+     */
+    @ApiModelProperty("创建人ID")
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    private Long createBy;
+
+    /**
      * 逻辑删除字段
      */
     @ApiModelProperty("逻辑删除字段")

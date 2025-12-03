@@ -47,6 +47,11 @@ public class LocalApi implements ApiStrategy, InitializingBean {
     @Value("${login.captcha}")
     private Boolean captcha;
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        afterPropertiesSet("local");
+    }
+
     /**
      * 账号密码登录
      *

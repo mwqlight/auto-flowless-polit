@@ -42,7 +42,7 @@ spring:
       fail-on-unknown-properties: false
 ##允许端口
 server:
-  port: 26859
+  port: 26863
 ##启用的日志文件
 logging:
   config: classpath:logback.xml
@@ -56,6 +56,7 @@ mybatis-plus:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
       table-prefix: flyflow_
+      auto-create-table: true
     enable-sql-runner: false
   mapper-locations: classpath:mapper/*.xml
   configuration:
