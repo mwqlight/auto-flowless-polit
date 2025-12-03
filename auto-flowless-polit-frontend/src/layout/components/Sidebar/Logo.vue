@@ -10,7 +10,7 @@ defineProps({
   }
 });
 
-const logo = ref(new URL(`../../../assets/logo.png`, import.meta.url).href);
+const logo = ref(new URL(`../../../assets/afp-logo.svg`, import.meta.url).href);
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const logo = ref(new URL(`../../../assets/logo.png`, import.meta.url).href);
       >
         <img v-if="settingsStore.sidebarLogo" :src="logo" class="w-5 h-5" />
         <span v-else class="ml-3 text-white text-sm font-bold"
-          >FlyFlow</span
+          >AFP</span
         >
       </router-link>
 
@@ -36,7 +36,7 @@ const logo = ref(new URL(`../../../assets/logo.png`, import.meta.url).href);
       >
         <img v-if="settingsStore.sidebarLogo" :src="logo" class="w-5 h-5" />
         <span class="ml-3 text-white text-sm font-bold"
-          >FlyFlow</span
+          >AFP</span
         >
       </router-link>
     </transition>

@@ -132,7 +132,7 @@ const userStore = useUserStore();
 import {LocationQuery, LocationQueryValue, useRoute} from "vue-router";
 import {getCaptchaApi} from "@/api/auth";
 import {LoginData} from "@/api/auth/types";
-import {getCurrentInstance} from "vue";
+import {getCurrentInstance, ref} from "vue";
 import {isBlank, isNotBlank} from "@/views/flyflow/utils/objutil";
 
 const route = useRoute();
@@ -262,38 +262,49 @@ onMounted(() => {
  * 登录
  */
 function handleLogin() {
+	console.log('handleLogin called'); // 添加调试日志
 	loginFormRef.value.validate((valid: boolean) => {
 		if (valid) {
+			console.log('Form is valid'); // 添加调试日志
 			loading.value = true;
 			userStore
-					.login(loginData.value)
-					.then(() => {
-						const query: LocationQuery = route.query;
+				.login(loginData.value)
+				.then(() => {
+					console.log('Login successful'); // 添加调试日志
+					// 登录成功后获取用户信息
+					return userStore.getInfo();
+				})
+				.then(() => {
+					console.log('getInfo completed'); // 添加调试日志
+					const query: LocationQuery = route.query;
 
-						const redirect = (query.redirect as LocationQueryValue) ?? "/";
+					const redirect = (query.redirect as LocationQueryValue) ?? "/";
 
-						const otherQueryParams = Object.keys(query).reduce(
-								(acc: any, cur: string) => {
-									if (cur !== "redirect") {
-										acc[cur] = query[cur];
-									}
-									return acc;
-								},
-								{}
-						);
+					const otherQueryParams = Object.keys(query).reduce(
+						(acc: any, cur: string) => {
+							if (cur !== "redirect") {
+								acc[cur] = query[cur];
+							}
+							return acc;
+						},
+						{}
+					);
 
 
-						router.push({path: redirect, query: otherQueryParams});
-					})
-					.catch(() => {
-						// 验证失败，重新生成验证码
-						if(captcha.value==='true'){
-							getCaptcha();
-						}
-					})
-					.finally(() => {
-						loading.value = false;
-					});
+					router.push({path: redirect, query: otherQueryParams});
+				})
+				.catch((error) => {
+					console.error('Login failed:', error); // 添加调试日志
+					// 验证失败，重新生成验证码
+					if(captcha.value==='true'){
+						getCaptcha();
+					}
+				})
+				.finally(() => {
+					loading.value = false;
+				});
+		} else {
+			console.log('Form is invalid'); // 添加调试日志
 		}
 	});
 }

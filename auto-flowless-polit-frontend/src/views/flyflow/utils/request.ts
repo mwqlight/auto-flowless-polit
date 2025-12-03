@@ -11,9 +11,13 @@ const service = axios.create({
 	timeout: 60000,
 	headers: {'Content-Type': 'application/json;charset=utf-8', 'FlyflowVersion': import.meta.env.VITE_APP_VERSION},
 	transformResponse: [data => {
-		const res = JSON.parse(data)
-
-		return res
+		try {
+			const res = JSON.parse(data);
+			return res;
+		} catch (e) {
+			// 如果解析失败，返回原始数据
+			return data;
+		}
 	}]
 });
 
@@ -102,7 +106,7 @@ service.interceptors.response.use(
 
 
 		const {code, msg, ok} = data;
-		if (ok === true) {
+		if (ok === true || code === 200) {
 			return data;
 		}
 		// 响应数据为二进制流处理(Excel导出)

@@ -1,9 +1,9 @@
 import {defineStore} from "pinia";
 
 import {loginApi, loginByTokenApi, logoutApi,loginAtDingTalkApi} from "../api/auth";
-import {getUserInfo} from "../api/user";
+import {getUserInfo} from "@/views/flyflow/api/user";
 //TODO
-import {store} from "./store.ts";
+import {store} from "./store";
 
 import {LoginData} from "../api/auth/types";
 import {UserInfo} from "../api/user/types";
@@ -11,7 +11,6 @@ import {UserInfo} from "../api/user/types";
 import {useStorage} from "@vueuse/core";
 
 import {ref} from 'vue'
-//TODO
 import { resetRouter } from "@/router";
 export const useUserStore = defineStore("user", () => {
     // state
@@ -30,17 +29,18 @@ export const useUserStore = defineStore("user", () => {
      * @returns
      */
     function login(loginData: LoginData) {
-
-
+        console.log('login called with:', loginData); // 添加调试日志
         return new Promise<void>((resolve, reject) => {
             loginApi(loginData)
                 .then((response) => {
+                    console.log('loginApi response:', response); // 添加调试日志
                     const {tokenValue} = response.data;
                     token.value = tokenValue; // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
-					tenantId.value = loginData.tenantId; // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
-                    resolve();
+                    tenantId.value = loginData.tenantId; // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+                    resolve(); // 直接解析，不等待getInfo
                 })
                 .catch((error) => {
+                    console.error('login failed:', error); // 添加调试日志
                     reject(error);
                 });
         });
@@ -58,6 +58,10 @@ export const useUserStore = defineStore("user", () => {
                 .then((response) => {
                     const {tokenValue} = response.data;
                     token.value = tokenValue; // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+                    // 登录成功后获取用户信息
+                    return getInfo();
+                })
+                .then(() => {
                     resolve();
                 })
                 .catch((error) => {
@@ -77,6 +81,10 @@ export const useUserStore = defineStore("user", () => {
 				.then((response) => {
 					const {tokenValue} = response.data;
 					token.value = tokenValue; // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+					// 登录成功后获取用户信息
+					return getInfo();
+				})
+				.then(() => {
 					resolve();
 				})
 				.catch((error) => {
@@ -88,9 +96,11 @@ export const useUserStore = defineStore("user", () => {
 
     // 获取信息(用户昵称、头像、角色集合、权限集合)
     function getInfo() {
+        console.log('getInfo called'); // 添加调试日志
         return new Promise<UserInfo>((resolve, reject) => {
             getUserInfo()
                 .then(({data}) => {
+                    console.log('getUserInfo response:', data); // 添加调试日志
                     if (!data) {
                         return reject("Verification failed, please Login again.");
                     }
@@ -106,6 +116,7 @@ export const useUserStore = defineStore("user", () => {
                     resolve(data);
                 })
                 .catch((error) => {
+                    console.error('getInfo failed:', error); // 添加调试日志
                     reject(error);
                 });
         });
