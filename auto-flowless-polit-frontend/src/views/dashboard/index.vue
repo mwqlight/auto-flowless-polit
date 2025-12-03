@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
+import {onMounted, computed, ref} from "vue";
 
 defineOptions({
 	// eslint-disable-next-line vue/no-reserved-component-names
@@ -48,6 +48,7 @@ const greetings = computed(() => {
 	} else if (date.getHours() >= 0 && date.getHours() < 6) {
 		return "偷偷向银河要了一把碎星，只等你闭上眼睛撒入你的梦中，晚安🌛！";
 	}
+	return "你好！";
 });
 
 const duration = 5000;
