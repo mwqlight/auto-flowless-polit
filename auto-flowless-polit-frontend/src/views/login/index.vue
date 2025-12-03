@@ -119,11 +119,15 @@ onMounted(() => {
 		userStore
 				.loginByToken(token)
 				.then(() => {
-
-
-
-
+					// 登录成功后，先获取用户信息（包括角色信息），然后再跳转
+					return userStore.getInfo();
+				})
+				.then(() => {
 					router.push({path: redirect, query: params.params});
+				})
+				.catch((error) => {
+					console.log('Login error:', error);
+					handleLogin();
 				});
 	} else {
 		handleLogin();

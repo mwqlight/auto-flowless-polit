@@ -19,10 +19,10 @@ export const constantRoutes: RouteRecordRaw[] = [
 	},
 
 
-	{
-		path: "/login",
-		component: () => import("@/views/login/index.vue"),
-		meta: {hidden: true},
+	{ 
+		path: "/login", 
+		component: () => import("@/views/login/ap.vue"), 
+		meta: {hidden: true}, 
 	},
 
 
@@ -135,6 +135,8 @@ const router = createRouter({
 });
 
 
+import { useUserStoreHook } from "@/views/flyflow/stores/user";
+
 router.beforeEach((to, from, next) => {
 	// 在导航前执行操作，例如身份验证检查
 
@@ -163,7 +165,19 @@ router.beforeEach((to, from, next) => {
 
 
 	} else {
-		next(); // 继续导航
+		// 检查用户是否已经登录
+		const userStore = useUserStoreHook();
+		if (userStore.token) {
+			// 用户已经登录，允许访问所有页面
+			next();
+		} else {
+			// 用户没有登录，跳转到登录页面
+			if (to.path !== "/login" && to.path !== "/aplogin" && to.path !== "/redirectlogin") {
+				next({ path: "/login", query: { redirect: to.fullPath } });
+			} else {
+				next();
+			}
+		}
 	}
 })
 

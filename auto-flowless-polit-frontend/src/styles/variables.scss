@@ -2,22 +2,27 @@
 
 
 :root {
-  --menuBg: #304156;
-  --menuText: #bfcbd9;
-  --menuActiveText: #409eff;
-  --menuHover: #263445;
-  --subMenuBg: #1f2d3d;
-  --subMenuActiveText: #f4f4f5;
-  --subMenuHover: #001528;
+  --menuBg: #0a0e27;
+  --menuText: #8b92ab;
+  --menuActiveText: #00d4ff;
+  --menuHover: #151b3b;
+  --subMenuBg: #0f1428;
+  --subMenuActiveText: #00d4ff;
+  --subMenuHover: #1a203f;
 
 
-  //修改主题
+  //修改主题为高科技风格
 
-  --el-color-primary: #002fa7;
-  --el-color-success: #009966;
-  --el-color-danger: #cc0000;
-  --el-color-warning: #ff9a3e;
-  --el-border-radius-base: 0;
+  --el-color-primary: #00d4ff;
+  --el-color-success: #00ff88;
+  --el-color-danger: #ff006e;
+  --el-color-warning: #ffaa00;
+  --el-border-radius-base: 8px;
+  --el-bg-color: #050914;
+  --el-bg-color-overlay: #0e1425;
+  --el-text-color-regular: #a5acc4;
+  --el-border-color: #1e2746;
+  --el-border-color-light: #161d31;
 
 
 }

@@ -42,7 +42,7 @@ interface DefaultSettings {
 }
 
 const defaultSettings: DefaultSettings = {
-  title: "FlyFlow",
+  title: "AFP",
   showSettings: true,
   tagsView: true,
   fixedHeader: false,
