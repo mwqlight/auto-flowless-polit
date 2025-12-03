@@ -1,0 +1,35 @@
+spring:
+  redis:
+    host: myserver
+    port: 6379
+    database: 5
+  datasource:
+    url: jdbc:mysql://myserver:3306/flyflow_os?allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+
+
+
+logging:
+  config: classpath:logback-os.xml
+
+
+##允许端口
+server:
+  port: 36859
+file:
+  dir: /home/flyflow/static
+  showUrl: http://os.flyflow.cc/api/file/show
+
+
+sa-token:
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+
+
+##流程的数据api开关
+api:
+  ori: local
+
+
